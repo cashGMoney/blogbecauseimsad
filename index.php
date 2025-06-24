@@ -1,3 +1,5 @@
+<!-- index.php -->
+<?php include 'posts-data.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,32 +10,22 @@
 <body>
 
   <header class="banner">
-    <img src="images/banner.png" alt="Blog Banner">
+    <img src="images/banner.jpeg" alt="Blog Banner">
   </header>
 
   <main class="blog-list">
-    <?php
-      $posts = [
-        ["title" => "Post Three", "excerpt" => "Excerpt Three", "img" => "images/post3.png", "link" => "posts/post3.html"],
-        ["title" => "Post Two", "excerpt" => "Excerpt Two", "img" => "images/post2.png", "link" => "posts/post2.html"],
-        ["title" => "A blog for the friend who abandoned me", "excerpt" => "Today the sting of loneliness sets in...", "img" => "images/post1.png", "link" => "posts/post1.html"],
-      ];
+    <?php foreach (array_slice($posts, 0, 3) as $index => $post): ?>
+      <section class="blog-entry <?= $index % 2 !== 0 ? 'reverse' : '' ?>">
+        <img src="<?= $post['img'] ?>" alt="<?= $post['title'] ?>">
+        <div class="text">
+          <h2><a href="post.php?slug=<?= $post['slug'] ?>"><?= $post['title'] ?></a></h2>
+          <p><?= strip_tags(substr($post['content'], 0, 100)) ?>...</p>
+        </div>
+      </section>
+    <?php endforeach; ?>
 
-      foreach ($posts as $index => $post) {
-        $reverse = $index % 2 !== 0 ? "reverse" : "";
-        echo "
-          <section class='blog-entry $reverse'>
-            <img src='{$post['img']}' alt='{$post['title']}'>
-            <div class='text'>
-              <h2><a href='{$post['link']}'>{$post['title']}</a></h2>
-              <p>{$post['excerpt']}</p>
-            </div>
-          </section>
-        ";
-      }
-    ?>
     <div class="older-posts">
-      <a href="archive.html">See Older Posts</a>
+      <a href="archive.php">See Older Posts</a>
     </div>
   </main>
 
